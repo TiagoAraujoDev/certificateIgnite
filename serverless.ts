@@ -28,7 +28,7 @@ const serverlessConfiguration: AWS = {
       },
     ],
   },
-  // import the function via paths
+  package: { individually: false, include: ["./src/templates/**"] },
   functions: {
     generateCertificate: {
       handler: "src/functions/generateCertificate.handler",
@@ -42,8 +42,19 @@ const serverlessConfiguration: AWS = {
         },
       ],
     },
+    verifyCertificate: {
+      handler: "src/functions/verifyCertificate.handler",
+      events: [
+        {
+          http: {
+            path: "verifyCertificate/{id}",
+            method: "get",
+            cors: true,
+          },
+        },
+      ],
+    },
   },
-  package: { individually: true },
   custom: {
     esbuild: {
       bundle: true,
